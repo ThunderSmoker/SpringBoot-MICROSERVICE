@@ -14,7 +14,8 @@
     <module>product-service</module>
     <module>inventory-service</module>
     <module>discovery-server</module>
-      <module>api-gateway</module>
+    <module>api-gateway</module>
+    <module>notification-service</module>
 
   </modules>
   <parent>

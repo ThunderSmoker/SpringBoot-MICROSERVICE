@@ -3,11 +3,13 @@ package com.orderservice.orderservice.service;
 import com.orderservice.orderservice.dto.InventoryResponse;
 import com.orderservice.orderservice.dto.OrderLineItemsDTO;
 import com.orderservice.orderservice.dto.OrderRequest;
+import com.orderservice.orderservice.event.OrderPlaceEvent;
 import com.orderservice.orderservice.models.Order;
 
 import com.orderservice.orderservice.models.OrderLineItems;
 import com.orderservice.orderservice.repository.OrderRepositorty;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepositorty orderRepositorty;
     private final WebClient.Builder webClientBuilder;
+    private KafkaTemplate<String,OrderPlaceEvent> kafkaTemplate;
     public String placeOrder(OrderRequest orderRequest){
         Order order= new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -34,6 +37,7 @@ public class OrderService {
         boolean allProductsinStock= Arrays.stream(inventoryResponsesArray).allMatch(InventoryResponse::getIsInStock);
         if(allProductsinStock){
             orderRepositorty.save(order);
+            kafkaTemplate.send("notificationTopic",new OrderPlaceEvent(order.getOrderNumber()));
             return "Order Placed Successfully";
         }
         else {
