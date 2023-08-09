@@ -24,7 +24,7 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepositorty orderRepositorty;
     private final WebClient.Builder webClientBuilder;
-    private KafkaTemplate<String,OrderPlaceEvent> kafkaTemplate;
+    private KafkaTemplate<String, OrderPlaceEvent> kafkaTemplate;
     public String placeOrder(OrderRequest orderRequest){
         Order order= new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
