@@ -89,11 +89,6 @@ This project focuses on building a microservices architecture using Spring Cloud
 - Integrated Google's Jib library for efficient image generation.
 - Ensured proper port configuration and DNS resolution for Docker containers.
 
-### Step 13 - Monitoring with Prometheus and Grafana
-
-- Set up Prometheus and Grafana for monitoring services.
-
-
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). You can find the full text of the license [here](https://www.gnu.org/licenses/gpl-3.0.en.html).
